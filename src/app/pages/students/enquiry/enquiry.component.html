@@ -1,0 +1,129 @@
+<div class="widgets">
+    <div class="row">
+        <form class="col-lg-10" (submit)="onSubmit(form.value)" style="margin:auto auto auto auto">
+            <ba-card cardTitle="Personal Details" >
+             
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="inputName" [ngClass]="{'has-error': (!FullName.valid && FullName.touched), 'has-success': (FullName.valid && FullName.touched)}">Candidate Name</label>
+                            <input type="text" class="form-control" id="inputName" ngcontrol="inputname" name="FullName" [formControl]="FullName" type="text" [(ngModel)]="register.FullName" required placeholder="Candidate Name">
+                        </div>
+                        
+                        </div>
+                   
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="email" [ngClass]="{'has-error': (!Email.valid && Email.touched), 'has-success': (Email.valid && Email.touched)}">Candidate Email</label>
+                            <input type="text" (change)="searchStudent(email.value)" #email id="email" class="form-control" name="Email" [formControl]="Email" [(ngModel)]="register.Email" required placeholder="eg. email@gmail.com">
+                        </div>
+                    </div>
+                    <div *ngIf="duplicateStudent" class="col-lg-6"> </div>
+                    <div *ngIf="duplicateStudent && matchingList[0].Email!=undefined" class="col-lg-6">
+                        <div class="form-group">
+                            <div class="suggestions">
+                                <span style="color:green">
+                                Suggestion:&nbsp;&nbsp;
+                                </span>
+                                <span (click)="loadStudent()">
+                                    {{ matchingList[0].Email }}&nbsp;&nbsp;
+                                </span>
+                                <span (click)="loadStudent()">
+                                <i class="ion-android-refresh"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="dob">DOB</label>
+                            <div class="input-group">
+                                <input class="form-control" [formControl]="dobForm" [minDate]="minDate" placeholder="yyyy-mm-dd" name="dob" [(ngModel)]="dob" ngbDatepicker #d="ngbDatepicker">
+                                <div class="input-group-addon" (click)="d.toggle()">
+                                    <i class="ion-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="contactno">Contact Number</label>
+                            <input type="text" name="MobNo" [formControl]="MobNo" [(ngModel)]="register.MobNo" class="form-control" id="contactno" placeholder="eg. 9876543210">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="tempaddress">Current Address</label>
+                            <textarea type="text" [formControl]="CurrentAddress" name="CurrentAddress" [(ngModel)]="register.CurrentAddress" rows="4" class="form-control" id="tempaddress" placeholder="Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="permaddress">Permanant Address</label>
+                            <textarea type="text" [formControl]="PostalAddress" name="PostalAddress" [(ngModel)]="register.PostalAddress" rows="4" class="form-control" id="permaddress" placeholder="Address"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </ba-card>
+            <ba-card class="col-lg-10" cardTitle="Educational Qualifications" baCardClass="with-scroll">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="degree">Degree</label>
+                            <select name="degree" id="degree" [formControl]="UGDegree" name="UGDegree" [(ngModel)]="register.UGDegree" class="form-control">
+                          <option *ngFor="let item of degreeList" [value]="item.value">{{item.degree}}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="Percentage">Percentage</label>
+                            <input type="text" name="UGDegreePercent" [formControl]="UGDegreePercent" [(ngModel)]="register.UGPercentage" class="form-control" id="Percentage" placeholder="eg. 90%">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="pasingyear">Passing Year</label>
+                            <input type="text" name="UGDegreePassYear" [formControl]="UGDegreePassYear" [(ngModel)]="register.PassingYear" class="form-control" id="pasingyear" placeholder="eg. 2018">
+                        </div>
+                    </div>
+                </div>
+            </ba-card>
+            <ba-card class="col-lg-10" cardTitle="Interests" baCardClass="with-scroll">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="inputCourses">Technical Skills</label>
+                            <angular2-multiselect class="form-control" id="inputCourses" [formControl]="ProgLanguages" [data]="courses" name="ProgLanguages" [(ngModel)]="register.ProgLanguages" [settings]="dropdownSettings" (onSelect)="onTechSkillSelect($event)" (onDeSelect)="OnTechSkillDeSelect($event)"
+                                (onSelectAll)="onTechSkillSelectAll($event)" (onDeSelectAll)="onTechSkillDeSelectAll($event)">
+                            </angular2-multiselect>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="inputCourses">Select Course To Enroll</label>
+                            <angular2-multiselect class="form-control" id="inputCourses" [formControl]="CourceToEnroll" [data]="courses" name="CourceToEnroll" [(ngModel)]="register.CourceToEnroll" [settings]="dropdownSettings" (onSelect)="onEnrollForSelect($event)" (onDeSelect)="OnEnrollForDeSelect($event)"
+                                (onSelectAll)="onEnrollForSelectAll($event)" (onDeSelectAll)="onEnrollForDeSelectAll($event)">
+                            </angular2-multiselect>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="Reference">Reference / Source</label>
+                            <input type="text" id="Reference" [formControl]="Source" name="Source" [(ngModel)]="register.Source" class="form-control" placeholder="Reference Name">
+                        </div>
+                    </div>
+                </div>
+            </ba-card>
+            <div class="col-lg-12" align="center">
+                <button type="submit" class="btn btn-default btn-raised col-lg-4" style="margin-bottom:30px;">Submit</button>
+                <button type="button" (click)="clear()" class="btn btn-danger btn-raised col-lg-4" style="margin-bottom:30px;">Clear</button>
+
+            </div>
+        </form>
+    </div>
+</div>

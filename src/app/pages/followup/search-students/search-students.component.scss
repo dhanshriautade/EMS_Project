@@ -1,0 +1,28 @@
+@import '../../../theme/sass/conf/conf';
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+.searchbtn {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    height: 200px;
+}
+
+.filter {
+    margin: 10px 12px 10px 0px;
+}
+
+.panel-heading {
+    margin-top: 20px;
+}
+
+.jumbotron {
+    background-color: inherit;
+    margin: 0px 50px 0px 50px;
+}

@@ -1,0 +1,67 @@
+<div class="widgets">
+    <div class="row">
+        <ba-card cardTitle="Student List" class="col-lg-12" baCardClass="with-scroll">
+            <div class="panel panel-default">
+                <div class="filter col-lg-4">
+                    <label for="fil1">Search Student</label>
+                    <input id="fil1" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">Student's information</div>
+                <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Full Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                Current Address
+                            </th>
+                            <th style="width: 10%">
+                                Degree/ Diploma
+                            </th>
+                            <th style="width: 10%">
+                                Mobile
+                            </th>
+                            <th style="width: 10%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td>{{item.CurrentAddress}}</td>
+                            <td *ngIf="item.DegreeCource!=null">{{item.UGDegree}}-{{item.DegreeCourse}}</td>
+                            <td *ngIf="item.DegreeCource==null">{{item.UGDegree}}</td>
+                            <td>{{item.MobNo}}</td>
+                            <td>
+                                <button class="btn btn-danger">
+                                    <i class="ion-flag"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 bottom-marg">
+            <button class="btn btn-default btn-raised" (click)="back()">
+                    <i class="ion-arrow-left-c"> back</i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng2-slim-loading-bar></ng2-slim-loading-bar>

@@ -1,0 +1,35 @@
+i {
+    cursor: pointer;
+}
+
+img {
+    max-width: 190px;
+    max-height: 190px;
+    min-width: 120px;
+    min-height: 100px;
+    margin-bottom: 5px;
+    border: 5px solid white;
+}
+
+@import '../../../theme/sass/conf/conf';
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+
+.suggestions {
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 10px;
+    span {
+        i {
+            max-height: 10px;
+            max-width: 10px;
+        }
+    }
+}

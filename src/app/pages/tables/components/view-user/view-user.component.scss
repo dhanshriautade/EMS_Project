@@ -1,0 +1,49 @@
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-bottom: 5px;
+    border-radius: 35px;
+}
+
+i {
+    height: 16px;
+}
+
+.bottom-marg {
+    margin-bottom: 10px;
+}
+
+.marginset {
+    margin: 30px auto auto auto;
+}
+
+.emp {
+    font-size: 16px;
+    margin: 0 0 0 2%;
+}
+
+:host /deep/ .widgets {
+    .data-table-container {
+        width: 100%;
+        .panel-heading {
+            margin-top: 25px;
+        }
+    }
+}
+
+.selectdropdown {
+    margin-bottom: 10px;
+}
+
+.topset {
+    margin-top: 10px;
+}

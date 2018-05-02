@@ -1,0 +1,201 @@
+<div class="widgets">
+    <div *ngIf="data.length == 0 && data2.length == 0" class="row">
+        <ba-card baCardClass="with-scroll" class="data-table-container">
+            No registered employees found
+        </ba-card>
+    </div>
+    <div *ngIf="data.length > 0" class="row">
+        <ba-card cardTitle="Active Employees" baCardClass="with-scroll" class="data-table-container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="label-control">Rows on page</label>
+                    <select class="form-control input-sm" [(ngModel)]="rowsOnPage">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="15">15</option>
+                </select>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label class="col-sm-12 label-control">Sort by</label>
+                    </div>
+                    <div class="row">
+                        <div class="offset-sm-1 col-sm-5">
+                            <div class="row">
+                                <select class="form-control input-sm" [(ngModel)]="sortBy">
+                                    <option ngValue="FullName">Name</option>
+                                    <option ngValue="Email">Email</option>
+                                    <option ngValue="userIsActiveByAdmin">Active</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="offset-sm-1 col-sm-5">
+                            <div class="row">
+                                <select class="form-control input-sm" [(ngModel)]="sortOrder">
+                                    <option ngValue="asc">Ascending</option>
+                                    <option ngValue="desc">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="filter">
+                    <input class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">User information</div>
+                <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 30%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+
+                            <th style="width: 10%;text-align:center;">
+                                Pending Assignments
+                            </th>
+                            <th style="width: 10%;text-align:center;">
+                                Completed Assignments
+                            </th>
+                            <th style="width: 10%;text-align:center;">
+                                <mfDefaultSorter by="userIsActiveByAdmin">Active</mfDefaultSorter>
+                            </th>
+                            <th style="width: 10%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td style="text-align:center;">
+                                <button (click)="viewStudents(item._id,'incomplete')" *ngIf="item.StudentAssign.length > 0" class="btn btn-default btn-raised"> 
+                                    {{item.StudentAssign.length}}
+                                </button>
+                                <span *ngIf="item.StudentAssign.length == 0">
+                                {{item.StudentAssign.length}}
+                                </span>
+                            </td>
+                            <td style="text-align:center;">
+                                <button (click)="viewStudents(item._id,'completed')" *ngIf="item.CompletedAssigned.length > 0" class="btn btn-default btn-raised"> 
+                                {{item.CompletedAssigned.length}}
+                                </button>
+                                <span *ngIf="item.CompletedAssigned.length == 0">
+                                {{item.CompletedAssigned.length}}
+                                </span>
+                            </td>
+                            <td style="text-align:center;" *ngIf="item.userIsActiveByAdmin">
+                                <i class="ion-android-done" (click)="staticModalShow(item)"></i>
+                            </td>
+                            <td style="text-align:center;" *ngIf="!item.userIsActiveByAdmin">
+                                <i class="ion-android-close" (click)="staticModalShow(item)"></i>
+                            </td>
+                            <td style="text-align:center;">
+                                <button class="btn btn-primary" (click)="viewUser(item)">
+                                    <i class="ion-android-send"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+    <div *ngIf="data2.length > 0" class="row">
+        <ba-card title="Employee Table" cardTitle="Inactive Employees" baCardClass="with-scroll" class="data-table-container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label class="label-control">Rows on page</label>
+                    <select class="form-control input-sm" [(ngModel)]="rowsOnPage">
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="15">15</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label class="col-sm-12 label-control">Sort by</label>
+                    </div>
+                    <div class="row">
+                        <div class="offset-sm-1 col-sm-5">
+                            <div class="row">
+                                <select class="form-control input-sm" [(ngModel)]="sortBy">
+                                        <option ngValue="FullName">Name</option>
+                                        <option ngValue="Email">Email</option>
+                                        <option ngValue="userIsActiveByAdmin">Active</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="offset-sm-1 col-sm-5">
+                            <div class="row">
+                                <select class="form-control input-sm" [(ngModel)]="sortOrder">
+                                        <option ngValue="asc">Ascending</option>
+                                        <option ngValue="desc">Descending</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="filter">
+                    <input class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">User information</div>
+                <table class="table table-striped" [mfData]="data2 | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%"></th>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 40%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%;text-align:center;">
+                                <mfDefaultSorter by="userIsActiveByAdmin">Active</mfDefaultSorter>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>
+                                <button (click)="remove(item)" class="btn btn-danger">
+                                        <i class="ion-android-delete"></i>
+                                </button>
+                            </td>
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td style="text-align:center;" *ngIf="item.userIsActiveByAdmin">
+                                <i class="ion-android-done" (click)="staticModalShow(item)"></i>
+                            </td>
+                            <td style="text-align:center;" *ngIf="!item.userIsActiveByAdmin">
+                                <i class="ion-android-close" (click)="staticModalShow(item)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+</div>
+
+<ng2-slim-loading-bar></ng2-slim-loading-bar>

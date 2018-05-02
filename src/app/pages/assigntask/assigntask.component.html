@@ -1,0 +1,238 @@
+<div class="widgets">
+        <div class="row">
+            <ba-card class="col-lg-12" cardTitle="Search Filters" baCardClass="with-scroll">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label for="dateSearch">Select Start Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="searchFromDate" ngbDatepicker #d1="ngbDatepicker">
+                            <div class="input-group-addon">
+                                <i class="ion-calendar" (click)="d1.toggle()"></i>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label for="dateSearch">Select End Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="searchToDate" ngbDatepicker #d2="ngbDatepicker">
+                            <div class="input-group-addon">
+                                <i class="ion-calendar" (click)="d2.toggle()"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="dropdw1n">Select Source</label>
+                        <div id="dropdw1n">
+                            <select class="btn btn-default selectdropdown form-control" [(ngModel)]="source">
+                            <option value="">None</option>
+                            <option *ngFor="let source of sourceList" [value]="source">{{source}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label for="dropdw1n">Assigned ?</label>
+                        <div id="dropdw1n">
+                            <select class="btn btn-default selectdropdown form-control" [(ngModel)]="assigned">
+                            <option value="">None</option>
+                            <option [value]=true>Yes</option>
+                            <option [value]=false>No</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 searchbtn">
+                        <button class="btn btn-default btn-raised" (click)="searchRecord()">
+                            <i class="ion-search"></i> Search
+                     </button>
+                    </div>
+                </div>
+            </ba-card>
+        </div>
+    </div>
+    <!-- demo starts -->
+    
+    <div *ngIf="dataNaukri.length > 0" class="row">
+        <ba-card cardTitle="Naukri Records" class="col-lg-12" baCardClass="with-scroll">
+            <div class="panel panel-default">
+                <div class="filter col-lg-4">
+                    <label for="fil1">Search Student</label>
+                    <input id="fil1" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">Student's information</div>
+                <table class="table table-striped" [mfData]="dataNaukri | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Full Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                Current Address
+                            </th>
+                            <th style="width: 10%">
+                                Degree/ Diploma
+                            </th>
+                            <th style="width: 10%">
+                                Mobile
+                            </th>
+                            <th style="width: 10%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td>{{item.CurrentAddress}}</td>
+                            <td *ngIf="item.DegreeCource!=null">{{item.UGDegree}}-{{item.DegreeCourse}}</td>
+                            <td *ngIf="item.DegreeCource==null">{{item.UGDegree}}</td>
+                            <td>{{item.MobNo}}</td>
+                            <td>
+                                <button class="btn btn-danger">
+                                    <i class="ion-flag"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+    
+    <!-- demo ends -->
+    
+    <!-- demo starts2 -->
+    
+    <div *ngIf="dataFirstNaukri.length > 0" class="row">
+        <ba-card cardTitle="First Naukri Records" class="col-lg-12" baCardClass="with-scroll">
+            <div class="panel panel-default">
+                <div class="filter col-lg-4">
+                    <label for="fil2">Search Student</label>
+                    <input id="fil2" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">Student's information</div>
+                <table class="table table-striped" [mfData]="dataFirstNaukri | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Full Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                Current Address
+                            </th>
+                            <th style="width: 10%">
+                                Degree/ Diploma
+                            </th>
+                            <th style="width: 10%">
+                                Mobile
+                            </th>
+                            <th style="width: 10%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td>{{item.CurrentAddress}}</td>
+                            <td *ngIf="item.DegreeCource!=null">{{item.UGDegree}}-{{item.DegreeCourse}}</td>
+                            <td *ngIf="item.DegreeCource==null">{{item.UGDegree}}</td>
+                            <td>{{item.MobNo}}</td>
+                            <td>
+                                <button class="btn btn-danger">
+                                    <i class="ion-flag"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+    
+    <!-- demo ends2 -->
+    
+    
+    <!-- demo starts3 -->
+    
+    <div *ngIf="dataQuikr.length > 0" class="row">
+        <ba-card cardTitle="Quikr Records" class="col-lg-12" baCardClass="with-scroll">
+            <div class="panel panel-default">
+                <div class="filter col-lg-4">
+                    <label for="fil3">Search Student</label>
+                    <input id="fil3" class="form-control" [(ngModel)]="filterQuery" placeholder="Filter By Name" />
+                </div>
+                <div class="panel-heading">Student's information</div>
+                <table class="table table-striped" [mfData]="dataQuikr | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="FullName">Full Name</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                <mfDefaultSorter by="Email">Email</mfDefaultSorter>
+                            </th>
+                            <th style="width: 20%">
+                                Current Address
+                            </th>
+                            <th style="width: 10%">
+                                Degree/ Diploma
+                            </th>
+                            <th style="width: 10%">
+                                Mobile
+                            </th>
+                            <th style="width: 10%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.FullName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td>{{item.CurrentAddress}}</td>
+                            <td *ngIf="item.DegreeCource!=null">{{item.UGDegree}}-{{item.DegreeCourse}}</td>
+                            <td *ngIf="item.DegreeCource==null">{{item.UGDegree}}</td>
+                            <td>{{item.MobNo}}</td>
+                            <td>
+                                <button class="btn btn-danger">
+                                    <i class="ion-flag"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </ba-card>
+    </div>
+    
+    <!-- demo ends3 -->

@@ -1,0 +1,112 @@
+<div class="widgets" *ngIf="user!=null && user!=undefined">
+    <div class="row">
+        <ba-card class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-2 marginset" style="margin-top:auto" align="center">
+                    <img [src]="profileUrl" *ngIf="profileUrl">
+                </div>
+                <div class="col-lg-4 marginset">
+                    <span class="emp">
+                        <i class="ion-person"></i>&nbsp;&nbsp;&nbsp; {{user.FullName}}
+                    </span>
+                    <br><br>
+                    <span class="emp">
+                        <i class="ion-email"></i>&nbsp;&nbsp;&nbsp; {{user.Email}}
+                    </span>
+                </div>
+                <div class="col-lg-4 marginset">
+                    <span class="emp">
+                    <button class="btn btn-default btn-raised" (click)="viewStudents(user._id,'incomplete')"> 
+                        Pending Assignments&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="ion-clipboard"></i>&nbsp;&nbsp;&nbsp; {{user.StudentAssign.length}}
+                    </button>
+                    </span>
+                    <br><br>
+                    <span class="emp">
+                        <button class="btn btn-default btn-raised" (click)="viewStudents(user._id,'completed')"> 
+                        Completed Assignments &nbsp;
+                        <i class="ion-thumbsup"></i>&nbsp;&nbsp;&nbsp; {{user.CompletedAssigned.length}}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </ba-card>
+        <ba-card class="col-lg-12" cardTitle="Upload Excelsheet">
+            <div class="row">
+                <div class="col-lg-12">
+                    <label for="dropdwn" class="col-lg-12">Source</label>
+                    <div id="dropdwn" class="col-lg-5">
+                        <select class="btn btn-default selectdropdown form-control" [(ngModel)]="source">
+                                   <option value="" disabled>[--Please select a source--]</option>
+                                  <option *ngFor="let source of sourceList" [value]="source">{{source}}</option>
+                                </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 topset">
+                    <div class="col-lg-12">
+                        <input #fileUpload type="file" (change)="onFileChange($event)" multiple="false" hidden="true">
+                        <div class="input-group">
+                            <input #inputText type="text" [value]="defaultValue" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                    <button  class="btn btn-success" [disabled]="source==''?true:false" type="button" (click)="fileUpload.click()">
+                                      <i class="ion-android-folder-open"></i>
+                                      Browse
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <button class="btn btn-danger topset" style="margin-right:10px;" (click)="confirmUpload()">
+                                <i class="ion-upload"></i> Upload
+                                </button>
+                        <button class="btn btn-default topset" style="margin-right:10px;" (click)="preview()">
+                                <i class="ion-eye"></i> Preview
+                                </button>
+                        <button class="btn btn-default topset" (click)="clear(fileUpload.value='')">
+                                <i class="ion-close-round"></i> clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ba-card>
+        <ba-card *ngIf="data!=null && previewTable" class="col-lg-12" cardTitle="Excel Preview" baCardClass="with-scroll">
+            <div class="vertical-scroll">
+                <table class="table">
+                    <tr *ngFor="let row of data">
+                        <td *ngFor="let val of row">
+                            {{val}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </ba-card>
+        <ba-card *ngIf="data!=null && previewTable" class="col-lg-12" cardTitle="Preview" baCardClass="with-scroll">
+            <div class="vertical-scroll">
+                <table class="table">
+                    <tr *ngFor="let row of data">
+                        <td *ngFor="let val of row">
+                            {{val}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </ba-card>
+        <ba-card *ngIf="badRecordsfound" class="col-lg-12" cardTitle="Bad Records">
+            bad records list
+        </ba-card>
+        <ba-card *ngIf="duplicateRecordsfound" class="col-lg-12" cardTitle="Duplicate Records">
+            duplicate records list
+        </ba-card>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 bottom-marg">
+            <button class="btn btn-default btn-raised" (click)="back()">
+                    <i class="ion-arrow-left-c"> back</i>
+                </button>
+        </div>
+    </div>
+</div>
+
+<ng2-slim-loading-bar></ng2-slim-loading-bar>
